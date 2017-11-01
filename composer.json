@@ -1,0 +1,21 @@
+{
+   "name": "niirrty/niirrty.date",
+   "type": "library",
+   "description": "A PHP date library.",
+   "license": "MIT",
+   "authors": [
+      {
+         "name": "Ni Irrty",
+         "email": "niirrty+code@gmail.com"
+      }
+   ],
+   "require": {
+      "php": ">=7.1",
+      "niirrty/niirrty.translation": "^0.1"
+   },
+   "autoload": {
+      "psr-4": {
+         "Niirrty\\Date\\": "src/"
+      }
+   }
+}
