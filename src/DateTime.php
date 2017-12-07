@@ -878,6 +878,18 @@ class DateTime extends \DateTime
 
    }
 
+   /**
+    * @inheritdoc
+    */
+   public final function modify( $modify ) : DateTime
+   {
+
+      parent::modify( $modify );
+
+      return $this;
+
+   }
+
    // </editor-fold>
 
 
