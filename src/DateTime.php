@@ -4,7 +4,7 @@
  * @copyright  (c) 2017, Niirrty
  * @package        Niirrty\Date
  * @since          2017-03-20
- * @version        0.1.0
+ * @version        0.2.0
  */
 
 
@@ -14,7 +14,7 @@ declare( strict_types = 1 );
 namespace Niirrty\Date;
 
 
-use \Niirrty\{ArgumentException, Type, TypeTool};
+use Niirrty\{ ArgumentException, IStringable, Type, TypeTool };
 
 
 /**
@@ -38,16 +38,16 @@ use \Niirrty\{ArgumentException, Type, TypeTool};
  * @property-read int  $age
  * @property-read int  $quarter
  * @property-read int  $daysOfYear
- * @property-read bool $isLeapYear
+ * @property-read bool $leapYear
  * @since         v0.1.0
  */
-class DateTime extends \DateTime
+class DateTime extends \DateTime implements IStringable
 {
 
 
-   // <editor-fold desc="// – – –   P R I V A T E   S T A T I C   F I E L D S   – – – – – – – – – – – – – – – – –">
+   // <editor-fold desc="// – – –   P R I V A T E   C O N S T A N T S   – – – – – – – – – – – – – – – – – – – – –">
 
-   private static $monthNamesLongRegex = [
+   private const MONTH_NAMES_LONG_REGEX = [
       '~(january|januaro|januari|januar|janvier|urtarrilaren|siječanj|януари|jaanuar|tammikuu|xaneiro|Ιανουάριος|janúar|gennaio|janvāris|sausis|jannar|јануари|styczeń|janeiro|ianuarie|январь|јануар|január|enero|leden|ocak|січень|ionawr|студзеня)~i',
       '~(februarie|february|februaro|februari|februar|février|otsaila|февруари|veebruar|helmikuu|febreiro|Φεβρουάριος|feabhra|febrúar|febbraio|febrer|februāris|vasaris|frar|luty|fevereiro|февраль|фебруар|február|febrero|únor|Şubat|лютого|Chwefror|лютага)~i',
       '~(märz|maerz|march|mars|marts|marto|mart|март|märts|maaliskuu|marzec|marzo|Μάρτιος|Márta|gājiens|kovas|Marzu|maart|março|martie|marec|březen|березня|március|Mawrth|сакавіка)~i',
@@ -61,7 +61,7 @@ class DateTime extends \DateTime
       '~(november|novembre|azaroa|novembar|ноември|novembro|marraskuu|Νοέμβριος|Samhain|nóvember|studeni|novembris|lapkritis|novembru|Ноември|listopad|noiembrie|ноябрь|новембар|noviembre|Kasım|Листопад|tachwedd)~i',
       '~(dezember|december|décembre|abendua|decembar|декември|decembro|detsember|joulukuu|Δεκέμβριος|nollaig|desember|dicembre|decembris|gruodis|Diċembru|desember|grudzień|dezembro|decembrie|декабрь|децембар|diciembre|prosinec|Aralık|грудня|rhagfyr)~i'
    ];
-   private static $monthNamesShortRegex = [
+   private const MONTH_NAMES_SHORT_REGEX = [
       '~(jan|urt|sij|jaa|tam|xan|gen|sau|јан|sty|ian|ene|led|oca|ion)~i',
       '~(feb|fév|ots|фев|veb|hel|Φεβ|fea|vas|fra|lut|fev|úno|Şub|Chw)~i',
       '~(mär|mar|мар|maa|mar|Már|gāj|kov|bře|Maw)~i',
@@ -76,7 +76,7 @@ class DateTime extends \DateTime
       '~(dez|dec|déc|abe|дек|det|jou|Δεκ|nol|des|dic|gru|Diċ|gru|дец|pro|Ara|rha)~i'
    ];
 
-   private static $getFormats = [
+   private const GETTER_FORMATS = [
       'year' => 'Y',
       'yearIso' => 'o',
       'month' => 'n',
@@ -415,35 +415,21 @@ class DateTime extends \DateTime
    public function __get( $name )
    {
 
-      if ( \array_key_exists( $name, static::$getFormats ) )
+      if ( \array_key_exists( $name, static::GETTER_FORMATS ) )
       {
 
-         return (int) $this->format( static::$getFormats[ $name ] );
+         return (int) $this->format( static::GETTER_FORMATS[ $name ] );
 
       }
+      
+      $getterName = 'get' . \ucfirst( $name );
 
-      switch ( $name )
+      if ( \method_exists( $this, $getterName ) )
       {
-
-         case 'weekOfMonth':
-            return $this->getWeekOfMonth();
-
-         case 'age':
-            return $this->getAge();
-
-         case 'quarter':
-            return $this->getQuarter();
-
-         case 'daysOfYear':
-            return $this->getDaysOfYear();
-
-         case 'isLeapYear':
-            return $this->isLeapYear();
-
-         default:
-            return false;
-
+         return $this->{$getterName}();
       }
+
+      return false;
 
    }
 
@@ -910,7 +896,7 @@ class DateTime extends \DateTime
    public function __isset( $name )
    {
 
-      if ( \array_key_exists( $name, static::$getFormats ) )
+      if ( \array_key_exists( $name, static::GETTER_FORMATS ) )
       {
 
          return true;
@@ -1043,16 +1029,21 @@ class DateTime extends \DateTime
          $ex = null;
          // Replace all month names and short month names.
          $datetime = \preg_replace(
-            static::$monthNamesShortRegex,
+            static::MONTH_NAMES_SHORT_REGEX,
             $replacements,
             \preg_replace(
-               static::$monthNamesLongRegex,
+               static::MONTH_NAMES_LONG_REGEX,
                $replacements,
                $datetime
             )
          );
          // Replace every thing that's not an [0-9.:+/ -]
          $datetime = \preg_replace( '~\s{2,}~', ' ', \preg_replace( '~[^0-9.:+/-]+~', ' ', $datetime ) );
+      }
+
+      if ( '' === \trim( $datetime ) )
+      {
+         return false;
       }
 
       try
@@ -1165,7 +1156,7 @@ class DateTime extends \DateTime
    public static function FromTimestampUTC( int $timestamp ) : DateTime
    {
 
-      return new DateTime( '@' . $timestamp );
+      return ( new DateTime( '@' . $timestamp ) )->setTimezone( new \DateTimeZone( 'UTC' ) );
 
    }
 
@@ -1213,7 +1204,7 @@ class DateTime extends \DateTime
    public static function CurrentHour() : int
    {
 
-      return (int) \date( 'h' );
+      return (int) \date( 'H' );
 
    }
 
@@ -1354,6 +1345,107 @@ class DateTime extends \DateTime
 
       // 64 bit
       return static::Create( 1, 1, 1, 0, 0, 0 );
+
+   }
+
+   /**
+    * Get the date time for easter sunday at defined year
+    *
+    * @param int $year
+    * @return \Niirrty\Date\DateTime
+    */
+   public static function EasterSunday( int $year ) : DateTime
+   {
+
+      if ( $year > 1969 && $year < 2038 )
+      {
+
+         $dt = new DateTime( '@' . \easter_date( $year ) );
+
+      }
+      else
+      {
+
+         $gz = ( $year % 19 ) + 1;
+         $jhd = self::div( $year, 100 ) + 1;
+         $ksj = self::div( 3 * $jhd, 4 ) - 12;
+         $corr = self::div( 8 * $jhd + 5, 25 ) - 5;
+         $so = self::div( 5 * $year, 4 ) - $ksj - 10;
+         $pakte = ( ( 11 * $gz + 20 + $corr - $ksj ) % 30 );
+
+         if ( ( $pakte === 25 || $gz === 11 ) && $pakte === 24 )
+         {
+            $pakte++;
+         }
+
+         $n = 44 - $pakte;
+         if ( $n < 21 )
+         {
+            $n += 30;
+         }
+         $n = $n + 7 - ( ( $so + $n ) % 7 );
+         $n += self::LeapYear( $year )
+            ? 1
+            : 0;
+         $n += 59;
+         $a = self::LeapYear( $year )
+            ? 1
+            : 0;
+
+         // Month
+         $nm = $n;
+         if ( $nm > ( 59 + $a ) )
+         {
+            $nm = $nm + 2 - $a;
+         }
+         $nm += 91;
+         $month = self::div( 20 * $nm, 611 ) - 2;
+
+         // Day
+         $nt = $n;
+         if ( $nt > ( 59 + $a ) )
+         {
+            $nt = $nt + 2 - $a;
+         }
+         $nt += 91;
+         $m = self::div( 20 * $nt, 611 );
+         $day = $nt - self::div( 611 * $m, 20 );
+
+         $dt = DateTime::Create( $year, $month, $day );
+
+      }
+
+      if ( false === $dt->getTimezone()->getLocation() ||
+           '+00:00' === $dt->getTimezone()->getName() )
+      {
+         $dt->setTimezone( new \DateTimeZone( 'Europe/Berlin' ) );
+      }
+
+      return $dt;
+
+   }
+
+   protected static function div( $a, $b )
+   {
+
+      return ( $a - ( $a % $b ) ) / $b;
+
+   }
+
+   /**
+    * Gets if the defined year is a leap year.
+    *
+    * @param  int $year
+    * @return bool
+    */
+   public static function LeapYear( int $year ) : bool
+   {
+
+      return (
+            ( ( $year % 4 == 0 ) AND ! ( $year % 100 == 0 ) )
+         AND
+            ( $year % 400 != 0 )
+      );
 
    }
 

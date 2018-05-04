@@ -4,7 +4,7 @@
  * @copyright  (c) 2017, Niirrty
  * @package        Niirrty\Date
  * @since          2017-03-20
- * @version        0.1.0
+ * @version        0.2.0
  */
 
 
@@ -14,7 +14,7 @@ declare( strict_types = 1 );
 namespace Niirrty\Date;
 
 
-use \Niirrty\ArgumentException;
+use Niirrty\{ ArgumentException, IArrayable, IStringable };
 
 
 /**
@@ -22,7 +22,7 @@ use \Niirrty\ArgumentException;
  *
  * @since         v0.1.0
  */
-class Time
+class Time implements IStringable, IArrayable, \Serializable
 {
 
 
@@ -351,6 +351,22 @@ class Time
    }
 
    /**
+    * Returns all instance data as an associative array.
+    *
+    * @return array
+    */
+   public function toArray() : array
+   {
+
+      return [
+         'hours'   => $this->_hours,
+         'minutes' => $this->_minutes,
+         'seconds' => $this->_seconds
+      ];
+
+   }
+
+   /**
     * @inherit-doc
     */
    public function __clone()
@@ -580,26 +596,35 @@ class Time
 
          if ( \in_array( $char, $formatChars, false ) )
          {
+
             // The current char is a format char that should be replaced in normal cases.
 
             if ( $backslashCount > 0 )
             {
-               // But there was a backslash before so it should be used as it
 
-               if ( $backslashCount > 1 )
+               // But there was a backslash before. So it should be used as it?
+
+               if ( 0 === $backslashCount % 2 )
                {
-                  // Append the unsaved backslashes if there are more than 1 (the last will be ignored)
-                  $result .= \str_repeat( '\\', $backslashCount - 1 );
+                  // 2, 4, 6, etc. backslashes => the current char is not escaped
+                  $result .= \str_repeat( '\\', $backslashCount / 2 );
+                  $backslashCount = 0;
                }
-
-               // Append the current char as it
-               $result .= $char;
-
-               // empty the $backslashCount
-               $backslashCount = 0;
-
-               // Goto next char
-               continue;
+               else
+               {
+                  //  \A => A oder \\\A => \A oder \\\\\A => \\A
+                  if ( $backslashCount > 1 )
+                  {
+                     // Append the unsaved backslashes if there are more than 1 (the last will be ignored)
+                     $result .= \str_repeat( '\\', ( $backslashCount - 1 ) / 2 );
+                  }
+                  // Append the current char as it
+                  $result .= $char;
+                  // empty the $backslashCount
+                  $backslashCount = 0;
+                  // Goto next char
+                  continue;
+               }
 
             }
 
@@ -730,6 +755,39 @@ class Time
       }
 
       return $t->getSecondsAbsolute() === $this->getSecondsAbsolute();
+
+   }
+
+   /**
+    * String representation of object
+    * @link http://php.net/manual/en/serializable.serialize.php
+    * @return string the string representation of the object or null
+    * @since 5.1.0
+    */
+   public function serialize()
+   {
+
+      return \serialize( $this->toArray() );
+
+   }
+
+   /**
+    * Constructs the object
+    * @link http://php.net/manual/en/serializable.unserialize.php
+    * @param string $serialized <p>
+    * The string representation of the object.
+    * </p>
+    * @return void
+    * @since 5.1.0
+    */
+   public function unserialize( $serialized )
+   {
+
+      $data = \unserialize( $serialized );
+
+      $this->_hours   = $data[ 'hours'   ] ?? $this->_hours;
+      $this->_minutes = $data[ 'minutes' ] ?? $this->_minutes;
+      $this->_seconds = $data[ 'seconds' ] ?? $this->_seconds;
 
    }
 
@@ -891,7 +949,7 @@ class Time
    public static function CurrentHour() : int
    {
 
-      return (int) \strftime( '%h' );
+      return (int) \date( 'h' );
 
    }
 
@@ -903,7 +961,7 @@ class Time
    public static function CurrentMinute() : int
    {
 
-      return (int) \strftime( '%M' );
+      return (int) \date( 'i' );
 
    }
 
@@ -915,7 +973,34 @@ class Time
    public static function CurrentSecond() : int
    {
 
-      return (int) \strftime( '%S' );
+      return (int) \date( 's' );
+
+   }
+
+   /**
+    * Returns the current time.
+    *
+    * @return Time
+    */
+   public static function Now() : Time
+   {
+
+      return new Time( self::CurrentHour(), self::CurrentMinute(), self::CurrentSecond() );
+
+   }
+
+   /**
+    * Static way to create a new Time instance.
+    *
+    * @param int|null $hour   The hour (0-23) If null is defined, the current hour will be used.
+    * @param int|null $minute The minute (0-59) If null is defined, the current minute will be used.
+    * @param int|null $second The second (0-59) If null is defined, the current second will be used.
+    * @return \Niirrty\Date\Time
+    */
+   public static function Create( ?int $hour = null, ?int $minute = null, ?int $second = null ) : Time
+   {
+
+      return new Time( $hour, $minute, $second );
 
    }
 
