@@ -574,6 +574,39 @@ class DateTimeTest extends TestCase
 
     }
 
+    public function test_TryParse()
+    {
+
+        $this->assertFalse( DateTime::TryParse( null, $refDt ) );
+        $this->assertTrue( DateTime::TryParse( DateTime::Create( 2015, 7, 29 ), $refDt ) );
+        $this->assertSame( '2015-07-29 00:00:00', (string) $refDt );
+        $this->assertTrue( DateTime::TryParse( new \DateTime( '2015-07-29 00:10:20' ), $refDt ) );
+        $this->assertSame( '2015-07-29 00:10:20', (string) $refDt );
+        $this->assertFalse( DateTime::TryParse( new \stdClass(), $refDt ) );
+        $this->assertTrue( DateTime::TryParse( \mktime( 2, 10, 14, 8, 20, 2015 ), $refDt ) );
+        $this->assertSame( '2015-08-20', $refDt->formatSqlDate() );
+        $this->assertTrue( DateTime::TryParse( '2015-07-29 00:10:20', $refDt ) );
+        $this->assertSame( '2015-07-29 00:10:20', (string) $refDt );
+        $this->assertTrue( DateTime::TryParse( new class implements IStringable
+        {
+
+
+            public function __toString()
+            {
+
+                return '2015-07-29 00:10:20';
+            }
+
+
+        }, $refDt ) );
+        $this->assertSame( '2015-07-29 00:10:20', (string) $refDt );
+        $this->assertFalse( DateTime::TryParse( new Type( '2015-07-29 00:10:20' ), $refDt ) );
+        $this->assertFalse( DateTime::TryParse( '1......2....', $refDt ) );
+        $this->assertTrue( DateTime::TryParse( "2015-07-29 \r\n\t 00:10:20", $refDt ) );
+        $this->assertSame( '2015-07-29 00:10:20', (string) $refDt );
+
+    }
+
     public function test_FromDateTime()
     {
 

@@ -1108,6 +1108,36 @@ class DateTime extends \DateTime implements IStringable
     }
 
     /**
+     * Tries to parse a value as {@see DateTime} and return if it was successful.
+     *
+     * @param mixed              $value        The value to parse as DateTime. If can be a date(time) string, a unix
+     *                                         timestamp, a object of type \DateTime or something that can be converted,
+     *                                         by a string cast, to a valid date(time) string.
+     * @param DateTime|null      $refDateTime  Returns the DateTime instance if the method returns true
+     * @param \DateTimeZone|null $timezone     An optional TimeZone
+     *
+     * @return bool
+     */
+    public static function TryParse( $value, ?DateTime &$refDateTime, ?\DateTimeZone $timezone = null ) : bool
+    {
+
+        $refDateTime = null;
+
+        try
+        {
+            $dt = static::Parse( $value, $timezone );
+            if ( false === $dt ) { return false; }
+            $refDateTime = $dt;
+            return true;
+        }
+        catch ( \Throwable $ex )
+        {
+            return false;
+        }
+
+    }
+
+    /**
      * Init's a new instance.
      *
      * @param integer $year   The year
