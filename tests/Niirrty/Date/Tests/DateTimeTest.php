@@ -747,7 +747,11 @@ class DateTimeTest extends TestCase
     public function test_MinValue()
     {
 
-        $this->assertSame( '0001-01-01 00:00:00', (string) DateTime::MinValue() );
+        $min = ( \PHP_INT_SIZE === 4 )
+             ? DateTime::FromTimestamp( \intval( ~PHP_INT_MAX ) )->getTimestamp()
+             : DateTime::Create( 1, 1, 1, 0, 0, 0 )->getTimestamp();
+
+        $this->assertSame( $min, (string) DateTime::MinValue()->getTimestamp() );
 
     }
 

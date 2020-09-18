@@ -4,7 +4,7 @@
  * @copyright      © 2017-2020, Niirrty
  * @package        Niirrty\Date
  * @since          2017-03-20
- * @version        0.3.0
+ * @version        0.3.2
  */
 
 
