@@ -1,10 +1,10 @@
 <?php
 /**
  * @author         Ni Irrty <niirrty+code@gmail.com>
- * @copyright      © 2017-2020, Niirrty
+ * @copyright      © 2017-2021, Niirrty
  * @package        Niirrty\Date
  * @since          2017-03-20
- * @version        0.3.2
+ * @version        0.4.0
  */
 
 
@@ -14,7 +14,7 @@ declare( strict_types=1 );
 namespace Niirrty\Date;
 
 
-use Niirrty\{ArgumentException, IStringable, Type, TypeTool};
+use \Niirrty\{ArgumentException, IStringable, Type, TypeTool};
 
 
 /**
@@ -45,7 +45,7 @@ class DateTime extends \DateTime implements IStringable
 {
 
 
-    // <editor-fold desc="// – – –   P R I V A T E   C O N S T A N T S   – – – – – – – – – – – – – – – – – – – – –">
+    #region // – – –   P R I V A T E   C O N S T A N T S   – – – – – – – – – – – – – – – – – – – – –
 
     private const MONTH_NAMES_LONG_REGEX  = [
         '~(january|januaro|januari|januar|janvier|urtarrilaren|siječanj|януари|jaanuar|tammikuu|xaneiro|Ιανουάριος|janúar|gennaio|janvāris|sausis|jannar|јануари|styczeń|janeiro|ianuarie|январь|јануар|január|enero|leden|ocak|січень|ionawr|студзеня)~i',
@@ -94,20 +94,19 @@ class DateTime extends \DateTime implements IStringable
         'timestamp'   => 'U',
     ];
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="// – – –   P U B L I C   C O N S T R U C T O R   – – – – – – – – – – – – – – – – – – – –">
+    #region // – – –   P U B L I C   C O N S T R U C T O R   – – – – – – – – – – – – – – – – – – – –
 
     /**
      * Init a new instance.
      *
-     * @param string        $time
-     * @param \DateTimeZone $timezone
-     *
-     * @throws \Exception
+     * @param string             $time
+     * @param \DateTimeZone|null $timezone
+     * @throws \Throwable
      */
-    public function __construct( string $time = 'now', $timezone = null )
+    public function __construct( string $time = 'now', ?\DateTimeZone $timezone = null )
     {
 
         // Call the parent \DateTime constructor
@@ -115,13 +114,13 @@ class DateTime extends \DateTime implements IStringable
 
     }
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="// – – –   P U B L I C   M E T H O D S   – – – – – – – – – – – – – – – – – – – – – – – –">
+    #region // – – –   P U B L I C   M E T H O D S   – – – – – – – – – – – – – – – – – – – – – – – –
 
 
-    // <editor-fold desc="// - - -   G E T T E R   - - - - - - - - - - - - - - - - - - - - - -">
+    #region // - - -   G E T T E R   - - - - - - - - - - - - - - - - - - - - - -
 
     /**
      * Returns the year (4 digits).
@@ -388,7 +387,7 @@ class DateTime extends \DateTime implements IStringable
      * @param bool          $abs Get the absolute of the difference
      *
      * @return int
-     * @throws \Exception
+     * @throws \Throwable
      */
     public final function getDifferenceYears( ?DateTime $dt = null, bool $abs = true ): int
     {
@@ -403,7 +402,7 @@ class DateTime extends \DateTime implements IStringable
      * Gets the age for current date. This is the difference between instance date and current date, in years.
      *
      * @return int
-     * @throws \Exception
+     * @throws \Throwable
      */
     public final function getAge(): int
     {
@@ -440,22 +439,22 @@ class DateTime extends \DateTime implements IStringable
 
     }
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="// - - -   S E T T E R   - - - - - - - - - - - - - - - - - - - - - -">
+    #region // - - -   S E T T E R   - - - - - - - - - - - - - - - - - - - - - -
 
     /**
      * Set an new time.
      *
-     * @param int|array $hour    The new hour, or a array with hour minute + second,
+     * @param array|int|null $hour   The new hour, or a array with hour minute + second,
      *                           or NULL if the current defined should be used.
-     * @param int|null  $minute  The new minute, or NULL if the current defined should be used.
-     * @param int|null  $second  The new second, or NULL if the current defined should be used.
+     * @param int|null       $minute The new minute, or NULL if the current defined should be used.
+     * @param int|null       $second The new second, or NULL if the current defined should be used.
      *
      * @return DateTime
      */
-    public function setTimeParts( $hour = null, ?int $minute = null, ?int $second = null ): DateTime
+    public function setTimeParts( array|int|null $hour = null, ?int $minute = null, ?int $second = null ): DateTime
     {
 
         if ( \is_array( $hour ) && \count( $hour ) > 0 )
@@ -566,7 +565,7 @@ class DateTime extends \DateTime implements IStringable
     /**
      * Changes the current defined year to defined value.
      *
-     * @param integer $year The new year value. If the value NULL is used it means: Use the year of NOW()
+     * @param int|null $year The new year value. If the value NULL is used it means: Use the year of NOW()
      *
      * @return DateTime
      */
@@ -710,10 +709,10 @@ class DateTime extends \DateTime implements IStringable
 
     }
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="// - - -   A D D   M E T H O D S   - - - - - - - - - - - - - - - - -">
+    #region // - - -   A D D   M E T H O D S   - - - - - - - - - - - - - - - - -
 
     /**
      * Adds the defined number of seconds.
@@ -738,7 +737,7 @@ class DateTime extends \DateTime implements IStringable
      *
      * @return DateTime
      */
-    public final function move( \DateInterval $interval, $negative = false ): DateTime
+    public final function move( \DateInterval $interval, bool $negative = false ): DateTime
     {
 
         if ( $negative )
@@ -871,10 +870,10 @@ class DateTime extends \DateTime implements IStringable
 
     }
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="// - - -   F O R M A T   M E T H O D S   - - - - - - - - - - - - - -">
+    #region // - - -   F O R M A T   M E T H O D S   - - - - - - - - - - - - - -
 
     /**
      * Formats the current instance to be usable as a SQL Datetime string. Format is: YYYY-mm-dd HH:MM:SS
@@ -912,10 +911,10 @@ class DateTime extends \DateTime implements IStringable
 
     }
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="// - - -   M A G I C   M E T H O D   O V E R R I D E S   - - - - - -">
+    #region // - - -   M A G I C   M E T H O D   O V E R R I D E S   - - - - - -
 
     /**
      * Returns The date time to be usable as a SQL Datetime string. Format is: Y-m-d H:i:s
@@ -945,10 +944,10 @@ class DateTime extends \DateTime implements IStringable
 
     public function __set( $name, $value ) { }
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="// - - -   O T H E R   M E T H O D S   - - - - - - - - - - - - - - -">
+    #region // - - -   O T H E R   M E T H O D S   - - - - - - - - - - - - - - -
 
     /**
      * Checks if current instance is equal to permitted $value.
@@ -965,9 +964,9 @@ class DateTime extends \DateTime implements IStringable
      * @param boolean $strict The value must be of type {@see \Niirrty\Date\DateTime}? (default=false)
      *
      * @return boolean         Returns TRUE if $value is equal to current instance, FALSE otherwise.
-     * @throws \Exception
+     * @throws \Throwable
      */
-    public function equals( $value, bool $strict = false ): bool
+    public function equals( mixed $value, bool $strict = false ): bool
     {
 
         if ( $value instanceof \DateTimeInterface )
@@ -993,27 +992,27 @@ class DateTime extends \DateTime implements IStringable
 
     }
 
-    // </editor-fold>
+    #endregion
 
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="// – – –   P U B L I C   S T A T I C   M E T H O D S   – – – – – – – – – – – – – – – – –">
+    #region // – – –   P U B L I C   S T A T I C   M E T H O D S   – – – – – – – – – – – – – – – – –
 
     /**
      * Parses a value to a \Niirrty\Date\DateTime instance.
      *
-     * @param mixed         $datetime  The value to parse as DateTime. If can be a date(time) string, a unix timestamp
-     *                                 , a object of type \DateTime or something that can be converted, by a string
-     *                                 cast, to a valid date(time) string.
-     * @param \DateTimeZone $timezone  An optional TimeZone
+     * @param mixed              $datetime The value to parse as DateTime. If can be a date(time) string, a unix timestamp
+     *                                     , a object of type \DateTime or something that can be converted, by a string
+     *                                     cast, to a valid date(time) string.
+     * @param \DateTimeZone|null $timezone An optional TimeZone
      *
      * @return DateTime|bool Returns the created \Niirrty\Date\DateTime instance, or boolean FALSE if
      *                                     parsing fails.
-     * @throws \Exception
+     * @throws \Throwable
      */
-    public static function Parse( $datetime, ?\DateTimeZone $timezone = null )
+    public static function Parse( mixed $datetime, ?\DateTimeZone $timezone = null ): bool|DateTime
     {
 
         if ( null === $datetime )
@@ -1050,13 +1049,11 @@ class DateTime extends \DateTime implements IStringable
             {
                 $type = new Type( $datetime );
             }
-            catch ( \Throwable $ex )
+            catch ( \Throwable)
             {
-                unset( $ex );
-
                 return false;
             }
-            if ( !$type->hasAssociatedString() )
+            if ( ! $type->hasAssociatedString() )
             {
                 // Not a string and not convertible to a string.
                 return false;
@@ -1071,10 +1068,9 @@ class DateTime extends \DateTime implements IStringable
         {
             return new DateTime( $datetime, $timezone );
         }
-        catch ( \Throwable $ex )
+        catch ( \Throwable )
         {
             $replacements = [ '1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.', '10.', '11.', '12.' ];
-            $ex = null;
             // Replace all month names and short month names.
             $datetime = \preg_replace(
                 static::MONTH_NAMES_SHORT_REGEX,
@@ -1098,10 +1094,8 @@ class DateTime extends \DateTime implements IStringable
         {
             return new DateTime( \trim( $datetime ), $timezone );
         }
-        catch ( \Throwable $ex )
+        catch ( \Throwable )
         {
-            $ex = null;
-
             return false;
         }
 
@@ -1118,7 +1112,7 @@ class DateTime extends \DateTime implements IStringable
      *
      * @return bool
      */
-    public static function TryParse( $value, ?DateTime &$refDateTime, ?\DateTimeZone $timezone = null ) : bool
+    public static function TryParse( mixed $value, ?DateTime &$refDateTime = null, ?\DateTimeZone $timezone = null ) : bool
     {
 
         $refDateTime = null;
@@ -1130,7 +1124,7 @@ class DateTime extends \DateTime implements IStringable
             $refDateTime = $dt;
             return true;
         }
-        catch ( \Throwable $ex )
+        catch ( \Throwable )
         {
             return false;
         }
@@ -1168,7 +1162,7 @@ class DateTime extends \DateTime implements IStringable
      * @param \DateTime $dt
      *
      * @return DateTime
-     * @throws \Exception
+     * @throws \Throwable
      */
     public static function FromDateTime( \DateTime $dt ): DateTime
     {
@@ -1187,9 +1181,9 @@ class DateTime extends \DateTime implements IStringable
      * @param \DateTimeZone|null $timezone
      *
      * @return DateTime
-     * @throws \Exception
+     * @throws \Throwable
      */
-    public static function FromTimestamp( int $timestamp, ?\DateTimeZone $timezone = null )
+    public static function FromTimestamp( int $timestamp, ?\DateTimeZone $timezone = null ): DateTime
     {
 
         return static::Now( $timezone )->setTimestamp( $timestamp );
@@ -1199,15 +1193,15 @@ class DateTime extends \DateTime implements IStringable
     /**
      * Create a DateTime instance from a specific format.
      *
-     * @param string        $format
-     * @param string        $time
-     * @param \DateTimeZone $timezone
+     * @param string             $format
+     * @param string             $time
+     * @param \DateTimeZone|null $timezone
      *
      * @return DateTime
      * @throws ArgumentException
-     * @throws \Exception
+     * @throws \Throwable
      */
-    public static function FromFormat( string $format, $time, ?\DateTimeZone $timezone = null ): DateTime
+    public static function FromFormat( string $format, string $time, ?\DateTimeZone $timezone = null ): DateTime
     {
 
         if ( $timezone !== null )
@@ -1238,7 +1232,7 @@ class DateTime extends \DateTime implements IStringable
      * @param int $timestamp
      *
      * @return DateTime
-     * @throws \Exception
+     * @throws \Throwable
      */
     public static function FromTimestampUTC( int $timestamp ): DateTime
     {
@@ -1336,12 +1330,12 @@ class DateTime extends \DateTime implements IStringable
     /**
      * Init's a \Niirrty\Date\DateTime with current DateTime and returns it.
      *
-     * @param \DateTimeZone $timezone
-     * @param boolean       $useDayStart Set 00:00:00 as time? (default=FALSE)
-     * @param boolean       $useDayEnd   Set 23:59:59 as time? (default=FALSE)
+     * @param \DateTimeZone|null $timezone
+     * @param boolean            $useDayStart Set 00:00:00 as time? (default=FALSE)
+     * @param boolean            $useDayEnd   Set 23:59:59 as time? (default=FALSE)
      *
      * @return DateTime
-     * @throws \Exception
+     * @throws \Throwable
      */
     public static function Now(
         ?\DateTimeZone $timezone = null, bool $useDayStart = false, bool $useDayEnd = false ): DateTime
@@ -1351,7 +1345,7 @@ class DateTime extends \DateTime implements IStringable
 
         if ( $useDayStart )
         {
-            $dt->setTime( 0, 0, 0 );
+            $dt->setTime( 0, 0 );
         }
         else if ( $useDayEnd )
         {
@@ -1371,7 +1365,7 @@ class DateTime extends \DateTime implements IStringable
      * @return DateTime|bool Returns the DateTime, or boolean FALSE if does not exist or is not
      *                                     accessible by PHP.
      */
-    public static function FromFile( string $file, bool $checkIfFileExists = false )
+    public static function FromFile( string $file, bool $checkIfFileExists = false ): bool|DateTime
     {
 
         if ( $checkIfFileExists && !\file_exists( $file ) )
@@ -1415,7 +1409,7 @@ class DateTime extends \DateTime implements IStringable
      * Create a DateTime instance for the greatest supported date.
      *
      * @return DateTime
-     * @throws \Exception
+     * @throws \Throwable
      */
     public static function MaxValue(): DateTime
     {
@@ -1435,7 +1429,7 @@ class DateTime extends \DateTime implements IStringable
      * Create a DateTime instance for the lowest supported date.
      *
      * @return DateTime
-     * @throws \Exception
+     * @throws \Throwable
      */
     public static function MinValue(): DateTime
     {
@@ -1447,7 +1441,7 @@ class DateTime extends \DateTime implements IStringable
         }
 
         // 64 bit
-        return static::Create( 1, 1, 1, 0, 0, 0 );
+        return static::Create( 1, 1, 1 );
 
     }
 
@@ -1457,7 +1451,7 @@ class DateTime extends \DateTime implements IStringable
      * @param int $year
      *
      * @return DateTime
-     * @throws \Exception
+     * @throws \Throwable
      */
     public static function EasterSunday( int $year ): DateTime
     {
@@ -1530,7 +1524,7 @@ class DateTime extends \DateTime implements IStringable
 
     }
 
-    protected static function div( $a, $b )
+    protected static function div( $a, $b ): float|int
     {
 
         return ( $a - ( $a % $b ) ) / $b;
@@ -1555,8 +1549,7 @@ class DateTime extends \DateTime implements IStringable
 
     }
 
-
-    // </editor-fold>
+    #endregion
 
 
 }

@@ -29,7 +29,7 @@ class DateTimeTest extends TestCase
      */
     private $dateTimes = [];
 
-    public function setUp()
+    public function setUp() : void
     {
 
         $this->dateTimes[] = new DateTime( '2018-05-03 00:00:00', new \DateTimeZone( 'Europe/Berlin' ) );
@@ -642,24 +642,6 @@ class DateTimeTest extends TestCase
 
     }
 
-    public function test_FromFormatException()
-    {
-
-        $this->expectException( ArgumentException::class );
-        DateTime::FromFormat( 'd.m.Y H:s:i', 'f.o-o B#a#r' );
-
-    }
-
-    public function test_FromTimestampUTC()
-    {
-
-        $this->assertSame(
-            '1999-04-05 01:02:03',
-            (string) DateTime::FromTimestampUTC( \mktime( 1, 2, 3, 4, 5, 1999 ) )
-        );
-
-    }
-
     public function test_CurrentYear()
     {
 
@@ -751,7 +733,7 @@ class DateTimeTest extends TestCase
              ? DateTime::FromTimestamp( \intval( ~PHP_INT_MAX ) )->getTimestamp()
              : DateTime::Create( 1, 1, 1, 0, 0, 0 )->getTimestamp();
 
-        $this->assertSame( $min, (string) DateTime::MinValue()->getTimestamp() );
+        $this->assertSame( (string) $min, (string) DateTime::MinValue()->getTimestamp() );
 
     }
 

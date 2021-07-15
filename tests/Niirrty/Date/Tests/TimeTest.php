@@ -43,7 +43,7 @@ class TimeTest extends TestCase
      */
     private $timeNight;
 
-    public function setUp()
+    public function setUp() : void
     {
 
         $this->timeMorning = new Time( 5, 19, 52 );

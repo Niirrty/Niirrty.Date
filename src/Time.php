@@ -1,10 +1,10 @@
 <?php
 /**
  * @author         Ni Irrty <niirrty+code@gmail.com>
- * @copyright      © 2017-2020, Niirrty
+ * @copyright      © 2017-2021, Niirrty
  * @package        Niirrty\Date
  * @since          2017-03-20
- * @version        0.3.2
+ * @version        0.4.0
  */
 
 
@@ -14,7 +14,7 @@ declare( strict_types=1 );
 namespace Niirrty\Date;
 
 
-use Niirrty\{ArgumentException, IArrayable, IStringable};
+use \Niirrty\{ArgumentException, IArrayable, IStringable};
 
 
 /**
@@ -26,34 +26,33 @@ class Time implements IStringable, IArrayable, \Serializable
 {
 
 
-    // <editor-fold desc="// – – –   P R O T E C T E D   F I E L D S   – – – – – – – – – – – – – – – – – – – – – –">
-
+    #region // – – –   P R O T E C T E D   F I E L D S   – – – – – – – – – – – – – – – – – – – – – –
 
     /**
      * The hour(s) part
      *
      * @var int
      */
-    protected $_hours;
+    protected int $_hours;
 
     /**
      * The minute(s) part
      *
      * @var int
      */
-    protected $_minutes;
+    protected int $_minutes;
 
     /**
      * The second(s) part
      *
      * @var int
      */
-    protected $_seconds;
+    protected int $_seconds;
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="// – – –   P U B L I C   C O N S T R U C T O R   – – – – – – – – – – – – – – – – – – – –">
+    #region // – – –   P U B L I C   C O N S T R U C T O R   – – – – – – – – – – – – – – – – – – – –
 
     /**
      * Init a new instance.
@@ -82,23 +81,23 @@ class Time implements IStringable, IArrayable, \Serializable
         }
 
         // Ensure hour, minute and second is in a valid range
-        $hour = \min( 23, \max( 0, $hour ) );
+        $hour   = \min( 23, \max( 0, $hour ) );
         $minute = \min( 59, \max( 0, $minute ) );
         $second = \min( 59, \max( 0, $second ) );
 
-        $this->_hours = (int) $hour;
+        $this->_hours   = (int) $hour;
         $this->_minutes = (int) $minute;
         $this->_seconds = (int) $second;
 
     }
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="// – – –   P U B L I C   M E T H O D S   – – – – – – – – – – – – – – – – – – – – – – – –">
+    #region // – – –   P U B L I C   M E T H O D S   – – – – – – – – – – – – – – – – – – – – – – – –
 
 
-    // <editor-fold desc="# - - -   G E T T E R   - - - - - - - - - - - - - - - - - - - - - -">
+    #region # - - -   G E T T E R   - - - - - - - - - - - - - - - - - - - - - -
 
     /**
      * Returns the hour.
@@ -154,10 +153,10 @@ class Time implements IStringable, IArrayable, \Serializable
 
     }
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="# - - -   S E T T E R   - - - - - - - - - - - - - - - - - - - - - -">
+    #region # - - -   S E T T E R   - - - - - - - - - - - - - - - - - - - - - -
 
     /**
      * Sets the hour.
@@ -178,7 +177,7 @@ class Time implements IStringable, IArrayable, \Serializable
 
         }
 
-        $this->_hours = (int) $value;
+        $this->_hours = $value;
 
         if ( $this->_hours < 0 )
         {
@@ -213,7 +212,7 @@ class Time implements IStringable, IArrayable, \Serializable
 
         }
 
-        $this->_minutes = (int) $value;
+        $this->_minutes = $value;
 
         if ( $this->_minutes < 0 )
         {
@@ -248,7 +247,7 @@ class Time implements IStringable, IArrayable, \Serializable
 
         }
 
-        $this->_seconds = (int) $value;
+        $this->_seconds = $value;
 
         if ( $this->_seconds < 0 )
         {
@@ -333,10 +332,10 @@ class Time implements IStringable, IArrayable, \Serializable
 
     }
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="# - - -   O T H E R   M E T H O D S   - - - - - - - - - - - - - - -">
+    #region # - - -   O T H E R   M E T H O D S   - - - - - - - - - - - - - - -
 
     /**
      * Returns the time with format H:i:s.
@@ -637,42 +636,17 @@ class Time implements IStringable, IArrayable, \Serializable
 
                 }
 
-                switch ( $char )
+                $result .= match ( $char )
                 {
-
-                    case 'a':
-                        $result .= $this->getMeridiem( true );
-                        break;
-
-                    case 'A':
-                        $result .= $this->getMeridiem();
-                        break;
-
-                    case 'g':
-                        $result .= (string) $this->get12hHour();
-                        break;
-
-                    case 'G':
-                        $result .= (string) $this->_hours;
-                        break;
-
-                    case 'h':
-                        $result .= \sprintf( "%'.02d", $this->get12hHour() );
-                        break;
-
-                    case 'H':
-                        $result .= \sprintf( "%'.02d", $this->_hours );
-                        break;
-
-                    case 'i':
-                        $result .= \sprintf( "%'.02d", $this->_minutes );
-                        break;
-
-                    case 's':
-                        $result .= \sprintf( "%'.02d", $this->_seconds );
-                        break;
-
-                }
+                    'a' => $this->getMeridiem( true ),
+                    'A' => $this->getMeridiem(),
+                    'g' => (string) $this->get12hHour(),
+                    'G' => (string) $this->_hours,
+                    'h' => \sprintf( "%'.02d", $this->get12hHour() ),
+                    'H' => \sprintf( "%'.02d", $this->_hours ),
+                    'i' => \sprintf( "%'.02d", $this->_minutes ),
+                    's' => \sprintf( "%'.02d", $this->_seconds ),
+                };
 
                 continue;
 
@@ -706,9 +680,9 @@ class Time implements IStringable, IArrayable, \Serializable
      * @param mixed $value
      *
      * @return int|bool -1, 0, 1 oder (bool)FALSE if comparing fails because $value is of a unusable type
-     * @throws \Exception
+     * @throws \Throwable
      */
-    public function compare( $value )
+    public function compare( mixed $value ): bool|int
     {
 
         if ( !( $value instanceof Time ) )
@@ -745,9 +719,9 @@ class Time implements IStringable, IArrayable, \Serializable
      * @param boolean $strict The value must be of type {@see \Niirrty\Date\Time}? (default=false)
      *
      * @return boolean         Returns TRUE if $value is equal to current instance, FALSE otherwise.
-     * @throws \Exception
+     * @throws \Throwable
      */
-    public function equals( $value, bool $strict = false ): bool
+    public function equals( mixed $value, bool $strict = false ): bool
     {
 
         if ( $value instanceof Time )
@@ -778,7 +752,7 @@ class Time implements IStringable, IArrayable, \Serializable
      * @return string the string representation of the object or null
      * @since 5.1.0
      */
-    public function serialize()
+    public function serialize(): string
     {
 
         return \serialize( $this->toArray() );
@@ -808,13 +782,13 @@ class Time implements IStringable, IArrayable, \Serializable
 
     }
 
-    // </editor-fold>
+    #endregion
 
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="// – – –   P R O T E C T E D   M E T H O D S   – – – – – – – – – – – – – – – – – – – – –">
+    #region // – – –   P R O T E C T E D   M E T H O D S   – – – – – – – – – – – – – – – – – – – – –
 
     /**
      * Returns the hour in 12 hour format. (e.g. 13:00 is 01:00 etc.)
@@ -864,10 +838,10 @@ class Time implements IStringable, IArrayable, \Serializable
 
     }
 
-    // </editor-fold>
+    #endregion
 
 
-    // <editor-fold desc="// - - -   P U B L I C   S T A T I C   M E T H O D S   – – – – – – – – – – – – – – – – –">
+    #region // - - -   P U B L I C   S T A T I C   M E T H O D S   – – – – – – – – – – – – – – – – –
 
     /**
      * Parses a time definition to a \Niirrty\Date\Time instance.
@@ -877,9 +851,9 @@ class Time implements IStringable, IArrayable, \Serializable
      *                                 by a string cast, to a valid time string.
      *
      * @return Time|bool Returns the created Time instance, or boolean FALSE if parsing fails.
-     * @throws \Exception
+     * @throws \Throwable
      */
-    public static function Parse( $timeDefinition )
+    public static function Parse( mixed $timeDefinition ): Time|bool
     {
 
         if ( $timeDefinition instanceof Time )
@@ -910,15 +884,15 @@ class Time implements IStringable, IArrayable, \Serializable
     /**
      * Tries to parse a time definition to a \Niirrty\Time instance.
      *
-     * @param mixed $timeDefinition  The value to parse as Time. It can be a (date) time string, a unix timestamp, a
-     *                               object of type \Niirrty\DateTime or \DateTime or something that can be converted,
-     *                               by a string cast, to a valid time string.
-     * @param Time  $refTime         Returns the new Time instance if the method returns TRUE
+     * @param mixed     $timeDefinition The value to parse as Time. It can be a (date) time string, a unix timestamp, a
+     *                                  object of type \Niirrty\DateTime or \DateTime or something that can be converted,
+     *                                  by a string cast, to a valid time string.
+     * @param Time|null $refTime        Returns the new Time instance if the method returns TRUE
      *
      * @return bool                  Returns if the parsing was successful.
-     * @throws \Exception
+     * @throws \Throwable
      */
-    public static function TryParse( $timeDefinition, ?Time &$refTime = null ): bool
+    public static function TryParse( mixed $timeDefinition, ?Time &$refTime = null ): bool
     {
 
         if ( $timeDefinition instanceof Time )
@@ -1028,7 +1002,7 @@ class Time implements IStringable, IArrayable, \Serializable
     }
 
 
-    // </editor-fold>
+    #endregion
 
 
 }

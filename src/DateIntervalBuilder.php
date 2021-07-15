@@ -1,10 +1,10 @@
 <?php
 /**
  * @author         Ni Irrty <niirrty+code@gmail.com>
- * @copyright      © 2020, Niirrty
+ * @copyright      © 2020-2021, Niirrty
  * @package        Niirrty\Date
  * @since          2020-09-18
- * @version        0.3.2
+ * @version        0.4.0
  */
 
 
@@ -31,12 +31,12 @@ namespace Niirrty\Date;
 class DateIntervalBuilder
 {
 
-    private $_years = 0;
-    private $_months = 0;
-    private $_days = 0;
-    private $_hours = 0;
-    private $_minutes = 0;
-    private $_seconds = 0;
+    private int $_years  = 0;
+    private int $_months = 0;
+    private int $_days   = 0;
+    private int $_hours = 0;
+    private int $_minutes = 0;
+    private int $_seconds = 0;
 
     public function __construct() { }
 
@@ -90,6 +90,23 @@ class DateIntervalBuilder
     }
 
     /**
+     * @param int $years
+     * @param int $months
+     * @param int $days
+     * @return DateIntervalBuilder
+     */
+    public function setDateParts(  int $years = 0, int $months = 0, int $days = 0 ): DateIntervalBuilder
+    {
+
+        $this->_years  = $years;
+        $this->_months = $months;
+        $this->_days   = $days;
+
+        return $this;
+
+    }
+
+    /**
      * @param int $hours
      *
      * @return DateIntervalBuilder
@@ -125,6 +142,23 @@ class DateIntervalBuilder
     public function setSeconds( int $seconds ): DateIntervalBuilder
     {
 
+        $this->_seconds = $seconds;
+
+        return $this;
+
+    }
+
+    /**
+     * @param int $hours
+     * @param int $minutes
+     * @param int $seconds
+     * @return DateIntervalBuilder
+     */
+    public function setTimeParts(  int $hours = 0, int $minutes = 0, int $seconds = 0 ): DateIntervalBuilder
+    {
+
+        $this->_hours   = $hours;
+        $this->_minutes = $minutes;
         $this->_seconds = $seconds;
 
         return $this;
