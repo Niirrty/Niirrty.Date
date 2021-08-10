@@ -11,7 +11,7 @@
    ],
    "require": {
       "php": ">=8.0",
-      "niirrty/niirrty.translation": "^0.4",
+      "niirrty/niirrty.translation": "^0.4.2",
       "ext-calendar": "*"
    },
    "require-dev": {
