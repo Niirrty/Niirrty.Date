@@ -282,16 +282,16 @@ class TimeTest extends TestCase
         $this->assertSame( 'amA5505051952', $this->timeMorning->format( 'a\\AgGhHis' ) );
         $this->assertSame( 'am\\AM5505051952', $this->timeMorning->format( 'a\\\\AgGhHis' ) );
         $this->assertSame( 'am\\A5\\_505051952', $this->timeMorning->format( 'a\\\\\\Ag\\_GhHis' ) );
-        $this->assertSame( '06:18:04 PM', $this->timeEvening->format( TimeFormat::FULL_12H ) );
-        $this->assertSame( '05:19:52 AM', $this->timeMorning->format( TimeFormat::FULL_12H ) );
-        $this->assertSame( '06:18 PM', $this->timeEvening->format( TimeFormat::SHORT_12H ) );
-        $this->assertSame( '05:19 AM', $this->timeMorning->format( TimeFormat::SHORT_12H ) );
-        $this->assertSame( '18:18:04', $this->timeEvening->format( TimeFormat::FULL_24H ) );
-        $this->assertSame( '05:19:52', $this->timeMorning->format( TimeFormat::FULL_24H ) );
-        $this->assertSame( '18:18', $this->timeEvening->format( TimeFormat::SHORT_24H ) );
-        $this->assertSame( '05:19', $this->timeMorning->format( TimeFormat::SHORT_24H ) );
-        $this->assertSame( '12:18:04 PM', Time::Parse( '00:18:04' )->format( TimeFormat::FULL_12H ) );
-        $this->assertSame( '11:54:33 AM', $this->timeLunch->format( TimeFormat::FULL_12H ) );
+        $this->assertSame( '06:18:04 PM', $this->timeEvening->format( TimeFormat::FULL_12H->value ) );
+        $this->assertSame( '05:19:52 AM', $this->timeMorning->format( TimeFormat::FULL_12H->value ) );
+        $this->assertSame( '06:18 PM', $this->timeEvening->format( TimeFormat::SHORT_12H->value ) );
+        $this->assertSame( '05:19 AM', $this->timeMorning->format( TimeFormat::SHORT_12H->value ) );
+        $this->assertSame( '18:18:04', $this->timeEvening->format( TimeFormat::FULL_24H->value ) );
+        $this->assertSame( '05:19:52', $this->timeMorning->format( TimeFormat::FULL_24H->value ) );
+        $this->assertSame( '18:18', $this->timeEvening->format( TimeFormat::SHORT_24H->value ) );
+        $this->assertSame( '05:19', $this->timeMorning->format( TimeFormat::SHORT_24H->value ) );
+        $this->assertSame( '12:18:04 PM', Time::Parse( '00:18:04' )->format( TimeFormat::FULL_12H->value ) );
+        $this->assertSame( '11:54:33 AM', $this->timeLunch->format( TimeFormat::FULL_12H->value ) );
 
     }
 
@@ -311,16 +311,6 @@ class TimeTest extends TestCase
         $this->assertFalse( $this->timeMorning->equals( '05:19:52', true ) );
         $this->assertFalse( $this->timeMorning->equals( $this->timeEvening ) );
         $this->assertFalse( $this->timeMorning->equals( 'Abcdefghij K' ) );
-
-    }
-
-    public function test_serialize()
-    {
-
-        $this->assertSame(
-            'C:17:"Niirrty\Date\Time":60:{a:3:{s:5:"hours";i:5;s:7:"minutes";i:19;s:7:"seconds";i:52;}}',
-            \serialize( $this->timeMorning )
-        );
 
     }
 

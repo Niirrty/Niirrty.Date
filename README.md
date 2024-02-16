@@ -9,8 +9,8 @@ inside the `composer.json`:
 ```json
 {
    "require": {
-      "php": ">=8.0",
-      "niirrty/niirrty.date": "~0.4"
+      "php": ">=8.1",
+      "niirrty/niirrty.date": "~0.6"
    }
 }
 ```

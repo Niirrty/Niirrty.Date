@@ -8,8 +8,13 @@
  */
 
 
+
 namespace Niirrty\Date\Tests;
 
+if ( ! defined( 'NIIRRTY_NO_ERROR_HANDLER' ) )
+{
+    define( 'NIIRRTY_NO_ERROR_HANDLER', 1 );
+}
 
 use Niirrty\Date\DateIntervalBuilder;
 use PHPUnit\Framework\TestCase;

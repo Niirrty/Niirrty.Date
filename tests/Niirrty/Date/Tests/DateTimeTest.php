@@ -562,6 +562,12 @@ class DateTimeTest extends TestCase
                                           }
 
 
+                                          public static function FromString( string $str,
+                                                                             bool   $throwOnError = false ) : bool|static
+                                          {
+                                              return false;
+                                          }
+
                                       }
             )
         );
@@ -598,7 +604,12 @@ class DateTimeTest extends TestCase
             }
 
 
-        }, $refDt ) );
+            public static function FromString( string $str, bool $throwOnError = false ) : bool|static
+            {
+                return false;
+            }
+
+        },                                     $refDt ) );
         $this->assertSame( '2015-07-29 00:10:20', (string) $refDt );
         $this->assertFalse( DateTime::TryParse( new Type( '2015-07-29 00:10:20' ), $refDt ) );
         $this->assertFalse( DateTime::TryParse( '1......2....', $refDt ) );

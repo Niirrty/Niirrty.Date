@@ -56,25 +56,25 @@ class DateTime extends \DateTime implements IStringable
         '~(junio|junij|juni|june|juin|juny|jun|юни|juuni|kesäkuu|xuño|Ιούνιος|meitheamh|júní|giugno|jūnijs|birželis|Ġunju|Јуни|czerwiec|Junho|iunie|июнь|јун|június|jún|červen|haziran|Червень|iyun|mehefin)~i',
         '~(juliol|julio|julij|juli|july|juillet|uztailaren|юли|juuli|heinäkuu|xullo|Ιούλιος|Iúil|júlí|luglio|srpanj|jūlijs|liepa|Lulju|lipiec|julho|iulie|июль|јул|júl|červenec|temmuz|липня|július|iyul|gorffennaf)~i',
         '~(augustus|augusts|augusti|august|août|abuztua|avgust|август|aŭgusto|elokuu|agosto|Αύγουστος|Lúnasa|ágúst|agost|rugpjūtis|Awissu|sierpień|srpen|ağustos|серпня|augusztus|awst)~i',
-        '~(september|septembre|septembar|септември|septembro|syyskuu|setembro|Σεπτέμβριος|settembre|setembre|septembris|rugsėjis|settembru|wrzesień|setembro|septembrie|сентябрь|септембар|septembra|septiembre|září|eylül|вересень|szeptember|medi)~i',
-        '~(oktober|october|octobre|urria|oktobar|октомври|oktobro|oktoober|lokakuu|outubro|Οκτώβριος|október|ottobre|octubre|listopad|oktobris|spalis|ottubru|październik|octombrie|октября|октобар|octubre|říjen|ekim|Жовтень|hydref)~i',
+        '~(september|septembre|septembar|септември|septembro|syyskuu|setembro|Σεπτέμβριος|settembre|setembre|septembris|rugsėjis|settembru|wrzesień|septembrie|сентябрь|септембар|septembra|septiembre|září|eylül|вересень|szeptember|medi)~i',
+        '~(oktober|october|octobre|urria|oktobar|октомври|oktobro|oktoober|lokakuu|outubro|Οκτώβριος|október|ottobre|octubre|listopad|oktobris|spalis|ottubru|październik|octombrie|октября|октобар|říjen|ekim|Жовтень|hydref)~i',
         '~(november|novembre|azaroa|novembar|ноември|novembro|marraskuu|Νοέμβριος|Samhain|nóvember|studeni|novembris|lapkritis|novembru|Ноември|listopad|noiembrie|ноябрь|новембар|noviembre|Kasım|Листопад|tachwedd)~i',
-        '~(dezember|december|décembre|abendua|decembar|декември|decembro|detsember|joulukuu|Δεκέμβριος|nollaig|desember|dicembre|decembris|gruodis|Diċembru|desember|grudzień|dezembro|decembrie|декабрь|децембар|diciembre|prosinec|Aralık|грудня|rhagfyr)~i',
+        '~(dezember|december|décembre|abendua|decembar|декември|decembro|detsember|joulukuu|Δεκέμβριος|nollaig|desember|dicembre|decembris|gruodis|Diċembru|grudzień|dezembro|decembrie|декабрь|децембар|diciembre|prosinec|Aralık|грудня|rhagfyr)~i',
     ];
 
     private const MONTH_NAMES_SHORT_REGEX = [
         '~(jan|urt|sij|jaa|tam|xan|gen|sau|јан|sty|ian|ene|led|oca|ion)~i',
         '~(feb|fév|ots|фев|veb|hel|Φεβ|fea|vas|fra|lut|fev|úno|Şub|Chw)~i',
-        '~(mär|mar|мар|maa|mar|Már|gāj|kov|bře|Maw)~i',
-        '~(apr|avr|апр|huh|abr|Απρ|aib|tra|bal|kwi|апр|dub|nis|ápr|Ebr)~i',
-        '~(mai|may|maj|май|tou|Μάι|bea|maí|mag|geg|mej|mei|мая|máj|kvě|máj)~i',
+        '~(mär|mar|мар|maa|Már|gāj|kov|bře|Maw)~i',
+        '~(apr|avr|апр|huh|abr|Απρ|aib|tra|bal|kwi|dub|nis|ápr|Ebr)~i',
+        '~(mai|may|maj|май|tou|Μάι|bea|maí|mag|geg|mej|mei|мая|máj|kvě)~i',
         '~(jun|jui|юни|juu|kes|xuñ|Ιού|jún|giu|jūn|bir|Ġun|Јун|cze|iun|июн|јун|čer|haz|iyu|meh)~i',
         '~(jul|jui|uzt|юли|juu|hei|xul|Iúi|júl|lug|srp|lie|Lul|lip|iul|июл|јул|čer|tem|iyu|gor)~i',
-        '~(aug|aoû|abu|avg|авг|aŭg|elo|ago|Lún|ágú|ago|rug|Awi|sie|ağu|aws)~i',
-        '~(sep|сеп|syy|set|Σεπ|set|rug|wrz|сен|сеп|zář|eyl|sze|med)~i',
+        '~(aug|aoû|abu|avg|авг|aŭg|elo|ago|Lún|ágú|rug|Awi|sie|ağu|aws)~i',
+        '~(sep|сеп|syy|set|Σεπ|rug|wrz|сен|zář|eyl|sze|med)~i',
         '~(okt|oct|urr|окт|lok|out|Οκτ|ott|lis|spa|paź|říj|eki|Жов|hyd)~i',
         '~(nov|aza|ное|mar|Νοέ|Sam|nóv|stu|lap|noi|ноя|нов|Kas|tac)~i',
-        '~(dez|dec|déc|abe|дек|det|jou|Δεκ|nol|des|dic|gru|Diċ|gru|дец|pro|Ara|rha)~i',
+        '~(dez|dec|déc|abe|дек|det|jou|Δεκ|nol|des|dic|gru|Diċ|дец|pro|Ara|rha)~i',
     ];
 
     private const GETTER_FORMATS          = [
@@ -281,7 +281,7 @@ class DateTime extends \DateTime implements IStringable
     }
 
     /**
-     * Returns the currently defined time part as a {@see \Niirrty\Date\Time} instance.
+     * Returns the currently defined time part as a {@see Time} instance.
      *
      * @return Time If no usable date time is defined it returns boolean FALSE.
      */
@@ -463,7 +463,7 @@ class DateTime extends \DateTime implements IStringable
             // $hour is a array with time information
 
             // Change all array keys to lower case
-            $array = \array_change_key_case( $hour, \CASE_LOWER );
+            $array = \array_change_key_case( $hour );
 
             if ( isset( $array[ 'hour' ] ) )
             {
@@ -553,7 +553,7 @@ class DateTime extends \DateTime implements IStringable
      *
      * @return DateTime
      */
-    public function setISODate( $year, $week, $day = null ): DateTime
+    public function setISODate( int $year, int $week, ?int $day = null ): DateTime
     {
 
         parent::setISODate( $year, $week, $day );
@@ -680,11 +680,11 @@ class DateTime extends \DateTime implements IStringable
      * Sets the base value to current defined timestamp, but remember timestamps lets you to use only date times
      * in a limited range!
      *
-     * @param integer $unixTimestamp The unix timestamp.
+     * @param int $unixTimestamp The unix timestamp.
      *
      * @return DateTime
      */
-    public function setTimestamp( $unixTimestamp ): DateTime
+    public function setTimestamp( int $unixTimestamp ): DateTime
     {
 
         parent::setTimestamp( $unixTimestamp );
@@ -700,7 +700,7 @@ class DateTime extends \DateTime implements IStringable
      *
      * @return DateTime
      */
-    public function setTimezone( $timezone ): DateTime
+    public function setTimezone( \DateTimeZone $timezone ): DateTime
     {
 
         parent::setTimezone( $timezone );
@@ -754,7 +754,7 @@ class DateTime extends \DateTime implements IStringable
     }
 
     /**
-     * An alias of {@see \Niirrty\Date\DateTime::addSeconds}.
+     * An alias of {@see DateTime::addSeconds}.
      *
      * @param integer $seconds The seconds to add (use a negative value to subtract/remove the seconds)
      *
@@ -784,7 +784,7 @@ class DateTime extends \DateTime implements IStringable
     }
 
     /**
-     * An alias of {@see \Niirrty\Date\DateTime::addMinutes}.
+     * An alias of {@see DateTime::addMinutes}.
      *
      * @param integer $minutes The minutes to add (use a negative value to subtract/remove the minutes)
      *
@@ -883,7 +883,7 @@ class DateTime extends \DateTime implements IStringable
     public final function formatSqlDateTime(): string
     {
 
-        return $this->format( DateTimeFormat::SQL );
+        return $this->format( DateTimeFormat::SQL->value );
 
     }
 
@@ -895,7 +895,7 @@ class DateTime extends \DateTime implements IStringable
     public final function formatSqlDate(): string
     {
 
-        return $this->format( DateTimeFormat::SQL_DATE );
+        return $this->format( DateTimeFormat::SQL_DATE->value );
 
     }
 
@@ -952,7 +952,7 @@ class DateTime extends \DateTime implements IStringable
     /**
      * Checks if current instance is equal to permitted $value.
      *
-     * If $strict is set to TRUE it returns FALSE, if $value is not of type {@see \Niirrty\Date\DateTime}.
+     * If $strict is set to TRUE it returns FALSE, if $value is not of type {@see DateTime}.
      *
      * If $strict is set to FALSE $value can also be:
      *
@@ -961,7 +961,7 @@ class DateTime extends \DateTime implements IStringable
      * - a date time string like '2015-04-02' or '2015-04-02 12:00:01' or something other valid format
      *
      * @param mixed   $value  The value to compare with.
-     * @param boolean $strict The value must be of type {@see \Niirrty\Date\DateTime}? (default=false)
+     * @param boolean $strict The value must be of type {@see DateTime}? (default=false)
      *
      * @return boolean         Returns TRUE if $value is equal to current instance, FALSE otherwise.
      * @throws \Throwable
@@ -1023,7 +1023,7 @@ class DateTime extends \DateTime implements IStringable
 
         if ( $datetime instanceof DateTime )
         {
-            // Its already a \UK\DateTime => return it.
+            // Already a \Niirrty\Date\DateTime => return it.
             return $datetime;
         }
 
@@ -1041,9 +1041,16 @@ class DateTime extends \DateTime implements IStringable
         if ( TypeTool::IsInteger( $datetime ) )
         {
             // Unix timestamp convert to DateTime string
-            $datetime = \strftime( '%Y-%m-%d %H:%M:%S', (int) $datetime );
+            $dtime = new \DateTime();
+            $dtime->setTimestamp( (int) $datetime );
+            if ( null !== $timezone )
+            {
+                $dtime->setTimezone( $timezone );
+            }
+            return new DateTime( $dtime->format( 'y-m-d H:i:s' ), $dtime->getTimezone() );
         }
-        else if ( !\is_string( $datetime ) )
+
+        if ( !\is_string( $datetime ) )
         {
             try
             {
@@ -1249,7 +1256,7 @@ class DateTime extends \DateTime implements IStringable
     public static function CurrentYear(): int
     {
 
-        return (int) \strftime( '%Y' );
+        return (int) \date( 'Y' );
 
     }
 
@@ -1261,7 +1268,7 @@ class DateTime extends \DateTime implements IStringable
     public static function CurrentMonth(): int
     {
 
-        return (int) \strftime( '%m' );
+        return (int) \date( 'm' );
 
     }
 
@@ -1273,7 +1280,7 @@ class DateTime extends \DateTime implements IStringable
     public static function CurrentDay(): int
     {
 
-        return (int) \strftime( '%d' );
+        return (int) \date( 'd' );
 
     }
 
@@ -1297,7 +1304,7 @@ class DateTime extends \DateTime implements IStringable
     public static function CurrentMinute(): int
     {
 
-        return (int) \strftime( '%M' );
+        return (int) \date( 'i' );
 
     }
 
@@ -1437,7 +1444,7 @@ class DateTime extends \DateTime implements IStringable
         if ( \PHP_INT_SIZE === 4 )
         {
             // 32 bit (+ Win 64 bit)
-            return static::FromTimestamp( \intval( ~PHP_INT_MAX ) );
+            return static::FromTimestamp( ~PHP_INT_MAX );
         }
 
         // 64 bit
@@ -1551,6 +1558,25 @@ class DateTime extends \DateTime implements IStringable
 
     #endregion
 
+
+    /**
+     * @throws \Throwable
+     */
+    public static function FromString( string $str, bool $throwOnError = false ) : bool|static
+    {
+        if ( $throwOnError )
+        {
+            return static::Parse( $str );
+        }
+        try
+        {
+            return static::Parse( $str );
+        }
+        catch ( \Throwable )
+        {
+            return false;
+        }
+    }
 
 }
 

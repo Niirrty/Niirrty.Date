@@ -18,7 +18,7 @@ use \Niirrty\{ArgumentException, IArrayable, IStringable};
 
 
 /**
- * This class defines a object for better time handling.
+ * This class defines an object for better time handling.
  *
  * @since         v0.1.0
  */
@@ -165,7 +165,7 @@ class Time implements IStringable, IArrayable, \Serializable
      *
      * @return Time
      */
-    public function setHour( ?int $value = null ): Time
+    public function setHour( ?int $value = null ): self
     {
 
         if ( null === $value )
@@ -200,7 +200,7 @@ class Time implements IStringable, IArrayable, \Serializable
      *
      * @return Time
      */
-    public function setMinute( ?int $value = null ): Time
+    public function setMinute( ?int $value = null ): self
     {
 
         if ( null === $value )
@@ -235,7 +235,7 @@ class Time implements IStringable, IArrayable, \Serializable
      *
      * @return Time
      */
-    public function setSecond( ?int $value = null ): Time
+    public function setSecond( ?int $value = null ): self
     {
 
         if ( null === $value )
@@ -271,7 +271,7 @@ class Time implements IStringable, IArrayable, \Serializable
      * @return Time
      * @throws ArgumentException If $value is lower than 0 or bigger than 86399.
      */
-    public function setSecondsAbsolute( int $value ): Time
+    public function setSecondsAbsolute( int $value ): self
     {
 
         if ( $value < 0 )
@@ -376,9 +376,11 @@ class Time implements IStringable, IArrayable, \Serializable
     public function __clone()
     {
 
-        $this->_hours = 0 + $this->_hours;
-        $this->_minutes = 0 + $this->_minutes;
-        $this->_seconds = 0 + $this->_seconds;
+        $tmpZero = 0;
+
+        $this->_hours   = $tmpZero + $this->_hours;
+        $this->_minutes = $tmpZero + $this->_minutes;
+        $this->_seconds = $tmpZero + $this->_seconds;
 
     }
 
@@ -386,7 +388,7 @@ class Time implements IStringable, IArrayable, \Serializable
      * Returns if the current time points to the day end (23:59:59).
      *
      * @return boolean
-     * @see    \Niirrty\Date\Time::isStartOfDay()
+     * @see    Time::isStartOfDay
      */
     public final function isEndOfDay(): bool
     {
@@ -404,7 +406,7 @@ class Time implements IStringable, IArrayable, \Serializable
      * Returns if the current time points to the day start (00:00:00).
      *
      * @return boolean
-     * @see    \Niirrty\Date\Time::isEndOfDay()
+     * @see    Time::isEndOfDay
      */
     public final function isStartOfDay(): bool
     {
@@ -422,7 +424,7 @@ class Time implements IStringable, IArrayable, \Serializable
      * Returns if the current Time is inside the AM range. (Otherwise it will be a part of the PM range)
      *
      * @return boolean
-     * @see    \Niirrty\Date\Time::isPostMeridiem()
+     * @see    Time::isPostMeridiem
      */
     public final function isAnteMeridiem(): bool
     {
@@ -437,7 +439,7 @@ class Time implements IStringable, IArrayable, \Serializable
      * Returns if the current Time is inside the PM range. (Otherwise it will be a part of the AM range)
      *
      * @return boolean
-     * @see    \Niirrty\Date\Time::isAnteMeridiem()
+     * @see    Time::isAnteMeridiem
      */
     public final function isPostMeridiem(): bool
     {
@@ -527,7 +529,7 @@ class Time implements IStringable, IArrayable, \Serializable
     }
 
     /**
-     * Formats the current time and returns it as an string.
+     * Formats the current time and returns it as a string.
      *
      * The following format parameters are parsed:
      *
@@ -540,7 +542,7 @@ class Time implements IStringable, IArrayable, \Serializable
      * - <b>i</b> (00 - 59): The minute with leading zero
      * - <b>s</b> (00 - 59): The second with leading zero
      *
-     * If you will use one of this characters not meaning a format marker, you have to escape it with a leading
+     * If you use one of the characters not meaning a format marker, you have to escape it with a leading
      * backslash!
      *
      * @param string $formatString The Time formatting string. e.g.: H:i:s for 04:02:01
@@ -552,7 +554,7 @@ class Time implements IStringable, IArrayable, \Serializable
 
         // Handle often used directly
 
-        if ( $formatString === TimeFormat::FULL_12H )
+        if ( $formatString === TimeFormat::FULL_12H->value )
         {  // h:i:s A
             return \sprintf(
                 "%'.02d:%'.02d:%'.02d %s",
@@ -563,7 +565,7 @@ class Time implements IStringable, IArrayable, \Serializable
             );
         }
 
-        if ( $formatString === TimeFormat::SHORT_12H )
+        if ( $formatString === TimeFormat::SHORT_12H->value )
         {
             return \sprintf(
                 "%'.02d:%'.02d %s",
@@ -573,7 +575,7 @@ class Time implements IStringable, IArrayable, \Serializable
             );
         }
 
-        if ( $formatString === TimeFormat::FULL_24H )
+        if ( $formatString === TimeFormat::FULL_24H->value )
         {
             return \sprintf(
                 "%'.02d:%'.02d:%'.02d",
@@ -583,7 +585,7 @@ class Time implements IStringable, IArrayable, \Serializable
             );
         }
 
-        if ( $formatString === TimeFormat::SHORT_24H )
+        if ( $formatString === TimeFormat::SHORT_24H->value )
         {
             return \sprintf(
                 "%'.02d:%'.02d",
@@ -602,7 +604,7 @@ class Time implements IStringable, IArrayable, \Serializable
             // Handle each single character
             $char = $formatString[ $i ];
 
-            if ( \in_array( $char, $formatChars, false ) )
+            if ( \in_array( $char, $formatChars ) )
             {
 
                 // The current char is a format char that should be replaced in normal cases.
@@ -679,7 +681,7 @@ class Time implements IStringable, IArrayable, \Serializable
      *
      * @param mixed $value
      *
-     * @return int|bool -1, 0, 1 oder (bool)FALSE if comparing fails because $value is of a unusable type
+     * @return int|bool -1, 0, 1 oder (bool)FALSE if comparing fails because $value is of an unusable type
      * @throws \Throwable
      */
     public function compare( mixed $value ): bool|int
@@ -705,18 +707,18 @@ class Time implements IStringable, IArrayable, \Serializable
     /**
      * Checks if current instance is equal to permitted $value.
      *
-     * If $strict is set to TRUE it returns FALSE, if $value is not of type {@see \Niirrty\Date\Time}.
+     * If $strict is set to TRUE it returns FALSE, if $value is not of type {@see Time}.
      *
      * If $strict is set to FALSE $value can also be:
      *
-     * - a integer (Unix timestamp)
+     * - an integer (Unix timestamp)
      * - a \DateTime instance
-     * - a \Beluga\DateTime instance
+     * - a \Niirrty\Date\DateTime instance
      * - a date time string like '2015-04-02 12:00:01' or something other valid format
      * - a time string like '12:00:01' or something other valid format
      *
      * @param mixed   $value  The value to compare with.
-     * @param boolean $strict The value must be of type {@see \Niirrty\Date\Time}? (default=false)
+     * @param boolean $strict The value must be of type {@see Time}? (default=false)
      *
      * @return boolean         Returns TRUE if $value is equal to current instance, FALSE otherwise.
      * @throws \Throwable
@@ -771,7 +773,7 @@ class Time implements IStringable, IArrayable, \Serializable
      * @return void
      * @since 5.1.0
      */
-    public function unserialize( $serialized )
+    public function unserialize( string $serialized ) : void
     {
 
         $data = \unserialize( $serialized );
@@ -791,7 +793,7 @@ class Time implements IStringable, IArrayable, \Serializable
     #region // – – –   P R O T E C T E D   M E T H O D S   – – – – – – – – – – – – – – – – – – – – –
 
     /**
-     * Returns the hour in 12 hour format. (e.g. 13:00 is 01:00 etc.)
+     * Returns the hour in 12-hour format. (e.g. 13:00 is 01:00 etc.)
      *
      * @return integer
      */
@@ -1001,9 +1003,93 @@ class Time implements IStringable, IArrayable, \Serializable
 
     }
 
+    public static function FromArray( array $array, bool $throwOnError = false ) : bool|static
+    {
+
+        # 'hours' 'minutes' 'seconds'
+        $hours   = ! empty( $array[ 'hours' ] )
+                 ? \intval( $array[ 'hours' ] )
+                 : ( empty( $array[ 'hour' ] ) ? \intval( $array[ 'hour' ] ) : 0 );
+        $minutes = ! empty( $array[ 'minutes' ] )
+                 ? \intval( $array[ 'minutes' ] )
+                 : ( empty( $array[ 'minute' ] ) ? \intval( $array[ 'minute' ] ) : 0 );
+        $seconds = ! empty( $array[ 'seconds' ] )
+                 ? \intval( $array[ 'seconds' ] )
+                 : ( empty( $array[ 'second' ] ) ? \intval( $array[ 'second' ] ) : 0 );
+        $hours   = \min( 23, \max( 0, $hours ) );
+        $minutes = \min( 59, \max( 0, $minutes ) );
+        $seconds = \min( 59, \max( 0, $seconds ) );
+
+        if ( 0 === ( $hours + $minutes + $seconds ) )
+        {
+            if ( ! $throwOnError )
+            {
+                return false;
+            }
+            throw new ArgumentException( 'array', $array, 'Invalid array format for time data!' );
+        }
+
+        return new self( $hours, $minutes, $seconds );
+
+    }
+
+    /**
+     * @throws \Throwable
+     * @throws ArgumentException
+     */
+    public static function FromString( string $str, bool $throwOnError = false ) : bool|static
+    {
+
+        $time = null;
+        if ( static::TryParse( $str, $time ) )
+        {
+            return $time;
+        }
+
+        if ( ! $throwOnError )
+        {
+            return false;
+        }
+
+        throw new ArgumentException( 'str', $str, 'Invalid string format for time data!' );
+
+    }
 
     #endregion
 
+
+    public function __serialize() : array
+    {
+
+        return $this->toArray();
+
+    }
+
+    public function __unserialize( array $data ) : void
+    {
+
+        try
+        {
+            $instance = static::FromArray( $data );
+        }
+        catch ( \Throwable )
+        {
+            $instance = false;
+        }
+        if ( false === $instance )
+        {
+            $this->_hours = 0;
+            $this->_minutes = 0;
+            $this->_seconds = 0;
+        }
+        else
+        {
+            $this->_hours = $instance->getHour();
+            $this->_minutes = $instance->getMinute();
+            $this->_seconds = $instance->getSecond();
+        }
+
+    }
 
 }
 
